@@ -1,5 +1,4 @@
-/*
-package com.sha.springbootmicroservice1product.security;
+/*package com.sha.springbootmicroservice1product.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,29 +11,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collections;
-import java.util.function.Function;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.config.Customizer.withDefaults;*/
 
-#@Configuration
+/*
+@Configuration
 public class SecurityConfig {
 
-    */
-/*@Value("${service.security.secure-key-username}")
-    private String SECURE_KEY_USERNAME;
-
-    @Value("${service.security.secure-key-password}")
-    private String SECURE_KEY_PASSWORD;*//*
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
 
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .passwordEncoder((Function<String, String>) encoder)
+        UserDetails user = User.builder()
                 .username("user")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(Collections.singleton(user));
